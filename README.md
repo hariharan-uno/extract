@@ -35,7 +35,7 @@ func main() {
 }
 ~~~
 
-Currently, only one function `extract.Links()` is supported. More functions will be supported soon.
+Currently, only the functions `extract.Links()` and `extract.Images()` is supported. More functions will be supported soon.
 
 ###TODO
 - [x] Extract Links
