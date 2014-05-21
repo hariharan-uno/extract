@@ -21,7 +21,7 @@ func NewSelection(s, u string) *Selection {
 	return &Selection{s, u}
 }
 
-// Links extracts all the referincing urls from a webpage.
+// Links extracts all the referencing urls from a webpage.
 func Links(u string) []string {
 	s := NewSelection("a[href]", u)
 	link, err := url.Parse(s.URL)
@@ -45,14 +45,8 @@ func Links(u string) []string {
 	matches := sel.MatchAll(doc)
 	var result []string
 	for _, m := range matches {
-		// x may or may not be a absolute URL.
-		x, err := url.Parse(hrefString(m))
-		if err != nil {
-			log.Fatal(err)
-		}
-		//y is guaranteed to be a absolute URL
-		y := link.ResolveReference(x)
-		result = append(result, y.String())
+		r := resolveURL(hrefString(m), link)
+		result = append(result, r)
 	}
 	return result
 }
@@ -123,14 +117,20 @@ func Images(u string) []string {
 	matches := sel.MatchAll(doc)
 	var result []string
 	for _, m := range matches {
-		// x may or may not be a absolute URL.
-		x, err := url.Parse(imageString(m))
-		if err != nil {
-			log.Fatal(err)
-		}
-		//y is guaranteed to be a absolute URL
-		y := link.ResolveReference(x)
-		result = append(result, y.String())
+		r := resolveURL(imageString(m), link)
+		result = append(result, r)
 	}
 	return result
+}
+
+// resolveURL converts all input URLs into absolute URLs
+func resolveURL(s string, link *url.URL) string {
+	// x may or may not be a absolute URL.
+	x, err := url.Parse(s)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//y is guaranteed to be a absolute URL
+	y := link.ResolveReference(x)
+	return y.String()
 }
