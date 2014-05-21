@@ -20,8 +20,8 @@ func NewSelection(s, u string) *Selection {
 	return &Selection{s, u}
 }
 
-// ExtractLinks extracts all the referincing urls from a webpage.
-func ExtractLinks(url string) []string {
+// Links extracts all the referincing urls from a webpage.
+func Links(url string) []string {
 	s := NewSelection("a[href]", url)
 	link, err := url.Parse(s.URL)
 	if err != nil {
