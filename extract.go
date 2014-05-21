@@ -45,7 +45,11 @@ func Links(u string) []string {
 	matches := sel.MatchAll(doc)
 	var result []string
 	for _, m := range matches {
-		result = append(result, hrefString(m))
+		// x may or may not be a absolute URL.
+		x, err := url.Parse(hrefString(m))
+		//y is guaranteed to be a absolute URL
+		y := link.ResolveReference(x)
+		result = append(result, y.String())
 	}
 	return result
 }
@@ -116,7 +120,11 @@ func Images(u string) []string {
 	matches := sel.MatchAll(doc)
 	var result []string
 	for _, m := range matches {
-		result = append(result, imageString(m))
+		// x may or may not be a absolute URL.
+		x, err := url.Parse(imageString(m))
+		//y is guaranteed to be a absolute URL
+		y := link.ResolveReference(x)
+		result = append(result, y.String())
 	}
 	return result
 }
