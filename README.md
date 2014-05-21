@@ -40,7 +40,7 @@ Currently, only the functions `extract.Links()` and `extract.Images()` is suppor
 ###TODO
 - [x] Extract Links
 - [x] Extract Images
-- [ ] Change relative URLs into absolute URLs
+- [x] Change relative URLs into absolute URLs
 - [ ] Extract Headings
 
 ###Credits
