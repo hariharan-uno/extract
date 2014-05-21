@@ -4,6 +4,7 @@ package extract
 import (
 	"log"
 	"net/http"
+	"net/url"
 
 	"code.google.com/p/cascadia"
 	"code.google.com/p/go.net/html"
@@ -21,8 +22,8 @@ func NewSelection(s, u string) *Selection {
 }
 
 // Links extracts all the referincing urls from a webpage.
-func Links(url string) []string {
-	s := NewSelection("a[href]", url)
+func Links(u string) []string {
+	s := NewSelection("a[href]", u)
 	link, err := url.Parse(s.URL)
 	if err != nil {
 		log.Fatal("Incorrect url")
@@ -72,5 +73,5 @@ func attribute(t html.Token, a string) string {
 			return x.Val
 		}
 	}
-	return nil
+	return ""
 }
