@@ -45,15 +45,17 @@ func Links(u string) []string {
 	matches := sel.MatchAll(doc)
 	var result []string
 	for _, m := range matches {
-		result = append(result, nodeString(m))
+		result = append(result, hrefString(m))
 	}
 	return result
 }
 
-func nodeString(n *html.Node) string {
+// hrefString takes a *html.Node as input and
+// returns the value of attribute href
+func hrefString(n *html.Node) string {
 	switch n.Type {
 	case html.TextNode:
-		return n.Data
+		return ""
 	case html.ElementNode:
 		return attribute(
 			html.Token{
@@ -61,6 +63,21 @@ func nodeString(n *html.Node) string {
 				Data: n.Data,
 				Attr: n.Attr,
 			}, "href")
+	}
+	return ""
+}
+
+func imageString(n *html.Node) string {
+	switch n.Type {
+	case html.TextNode:
+		return ""
+	case html.ElementNode:
+		return attribute(
+			html.Token{
+				Type: html.StartTagToken,
+				Data: n.Data,
+				Attr: n.Attr,
+			}, "src")
 	}
 	return ""
 }
@@ -74,4 +91,32 @@ func attribute(t html.Token, a string) string {
 		}
 	}
 	return ""
+}
+
+func Images(u string) []string {
+	s := NewSelection("img[src]", u)
+	link, err := url.Parse(s.URL)
+	if err != nil {
+		log.Fatal("Incorrect url")
+		return nil
+	}
+	r, err := http.Get(link.String())
+	if err != nil {
+		log.Fatal(err)
+
+	}
+	doc, err := html.Parse(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	sel, err := cascadia.Compile(s.Selector)
+	if err != nil {
+		log.Fatal(err)
+	}
+	matches := sel.MatchAll(doc)
+	var result []string
+	for _, m := range matches {
+		result = append(result, imageString(m))
+	}
+	return result
 }
