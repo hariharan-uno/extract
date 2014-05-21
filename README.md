@@ -19,6 +19,13 @@ func main() {
 }
 ~~~
 
+Currently, only one function `extract.Links()` is supported. More functions will be supported soon.
+
+###TODO
+- [x] Extract Links
+- [ ] Extract Images
+- [ ] Extract Headings
+
 ###Credits
 
 Authors of Cascadia & go.net
