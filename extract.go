@@ -47,6 +47,9 @@ func Links(u string) []string {
 	for _, m := range matches {
 		// x may or may not be a absolute URL.
 		x, err := url.Parse(hrefString(m))
+		if err != nil {
+			log.Fatal(err)
+		}
 		//y is guaranteed to be a absolute URL
 		y := link.ResolveReference(x)
 		result = append(result, y.String())
@@ -122,6 +125,9 @@ func Images(u string) []string {
 	for _, m := range matches {
 		// x may or may not be a absolute URL.
 		x, err := url.Parse(imageString(m))
+		if err != nil {
+			log.Fatal(err)
+		}
 		//y is guaranteed to be a absolute URL
 		y := link.ResolveReference(x)
 		result = append(result, y.String())
