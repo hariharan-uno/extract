@@ -8,4 +8,5 @@ import (
 
 func main() {
 	fmt.Println(extract.Links("http://google.com"))
+	fmt.Println(extract.Images("http://google.com"))
 }
