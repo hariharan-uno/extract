@@ -31,7 +31,7 @@ func TestExtractImages(t *testing.T) {
 	if len(s) != 1 {
 		t.Errorf("length of results slice should be 1 but got %d", len(s))
 	}
-	if s[0] == "smiley.png" {
+	if s[0] == "/smiley.png" {
 		t.Errorf("URLs not getting resolved into absolute URLs")
 	}
 
