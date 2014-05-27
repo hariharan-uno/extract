@@ -18,6 +18,9 @@ func TestExtractLinks(t *testing.T) {
 	if len(r) != 2 {
 		t.Errorf("length of results slice should be 2 but got %d", len(r))
 	}
+	if r[1] == "/2" {
+		t.Errorf("URLs not getting resolved into absolute URLs [Links]")
+	}
 }
 
 func TestExtractImages(t *testing.T) {
@@ -32,7 +35,7 @@ func TestExtractImages(t *testing.T) {
 		t.Errorf("length of results slice should be 1 but got %d", len(s))
 	}
 	if s[0] == "/smiley.png" {
-		t.Errorf("URLs not getting resolved into absolute URLs")
+		t.Errorf("URLs not getting resolved into absolute URLs [Images]")
 	}
 
 }
