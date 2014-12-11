@@ -1,4 +1,9 @@
-// extract provides functions for parsing HTML and extract specific items
+// Copyright 2014 Hari haran. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
+// Package extract provides simple methods for extracting
+// specific items from a HTML page.
 package extract
 
 import (
@@ -10,8 +15,9 @@ import (
 	"code.google.com/p/go.net/html"
 )
 
+// A Selection contains the required elements for extraction
 type Selection struct {
-	Selector string
+	Selector string // CSS Selector
 	URL      string
 }
 
@@ -21,7 +27,7 @@ func NewSelection(s, u string) *Selection {
 	return &Selection{s, u}
 }
 
-// Links extracts all the referencing urls from a webpage.
+// Links extracts all the referencing absolute URLs from a webpage.
 func Links(u string) []string {
 	s := NewSelection("a[href]", u)
 	link, err := url.Parse(s.URL)
@@ -68,6 +74,8 @@ func hrefString(n *html.Node) string {
 	return ""
 }
 
+// imageString takes a *html.Node as input and
+// returns the value of attribute src
 func imageString(n *html.Node) string {
 	switch n.Type {
 	case html.TextNode:
@@ -94,6 +102,8 @@ func attribute(t html.Token, a string) string {
 	return ""
 }
 
+// Images returns the absolute URLs of all the images in a HTML page.
+// It takes the URL of the page as the input.
 func Images(u string) []string {
 	s := NewSelection("img[src]", u)
 	link, err := url.Parse(s.URL)
