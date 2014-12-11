@@ -1,4 +1,4 @@
-##extract
+##extract [![GoDoc](https://img.shields.io/badge/godoc-Documentation-blue.svg?style=flat)](https://godoc.org/github.com/hariharan-uno/extract)
 
 HTML scraping library.
 
