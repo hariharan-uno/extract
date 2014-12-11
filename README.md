@@ -2,7 +2,7 @@
 
 HTML scraping library.
 
-It provides simple higher level functions based upon [Cascadia](http://code.google.com/p/cascadia) and [go.net](http://code.google.com/p/go.net)
+It provides simple higher level functions based upon [Cascadia](http://code.google.com/p/cascadia) and [html](http://golang.org/x/net/html) packages.
 
 For example, 
 To extract all the links from a web page, 
@@ -35,14 +35,8 @@ func main() {
 }
 ~~~
 
-Currently, only the functions `extract.Links()` and `extract.Images()` is supported. More functions will be supported soon.
-
-###TODO
-- [x] Extract Links
-- [x] Extract Images
-- [x] Change relative URLs into absolute URLs
-- [ ] Extract Headings
+Currently, only the functions `extract.Links()` and `extract.Images()` are supported. If you'd like a specific function to be supported, please file an issue.
 
 ###Credits
 
-Authors of Cascadia & go.net
+Authors of [Cascadia](http://code.google.com/p/cascadia) and [html](http://golang.org/x/net/html)
