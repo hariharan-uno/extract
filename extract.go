@@ -26,7 +26,7 @@ func newSelection(s, u string) *selection {
 	return &selection{s, u}
 }
 
-// Links extracts all the referencing absolute URLs from a webpage.
+// Links returns the absolute URLs of all references from an URL of a webpage.
 func Links(u string) ([]string, error) {
 	s := newSelection("a[href]", u)
 	link, err := url.Parse(s.URL)
@@ -102,8 +102,7 @@ func attribute(t html.Token, a string) string {
 	return ""
 }
 
-// Images returns the absolute URLs of all the images in a HTML page.
-// It takes the URL of the page as the input.
+// Images returns the absolute URLs of all the images from an URL of a webpage.
 func Images(u string) ([]string, error) {
 	s := newSelection("img[src]", u)
 	link, err := url.Parse(s.URL)
@@ -134,14 +133,14 @@ func Images(u string) ([]string, error) {
 	return result, nil
 }
 
-// resolveURL converts all input URLs into absolute URLs
+// resolveURL converts all input URLs into absolute URLs.
 func resolveURL(s string, link *url.URL) (string, error) {
 	// x may or may not be an absolute URL.
 	x, err := url.Parse(s)
 	if err != nil {
 		return "", err
 	}
-	// y is guaranteed to be an absolute URL
+	// y is guaranteed to be an absolute URL.
 	y := link.ResolveReference(x)
 	return y.String(), nil
 }
