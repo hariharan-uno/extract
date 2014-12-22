@@ -7,7 +7,6 @@
 package extract
 
 import (
-	"log"
 	"net/http"
 	"net/url"
 
@@ -15,7 +14,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-// A Selection contains the required elements for extraction
+// A Selection contains the required elements for extraction.
 type Selection struct {
 	Selector string // CSS Selector
 	URL      string
@@ -28,37 +27,38 @@ func NewSelection(s, u string) *Selection {
 }
 
 // Links extracts all the referencing absolute URLs from a webpage.
-func Links(u string) []string {
+func Links(u string) ([]string, error) {
 	s := NewSelection("a[href]", u)
 	link, err := url.Parse(s.URL)
 	if err != nil {
-		log.Fatal("Incorrect url")
-		return nil
+		return nil, err
 	}
 	r, err := http.Get(link.String())
 	if err != nil {
-		log.Fatal(err)
-
+		return nil, err
 	}
 	doc, err := html.Parse(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	sel, err := cascadia.Compile(s.Selector)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	matches := sel.MatchAll(doc)
 	var result []string
 	for _, m := range matches {
-		r := resolveURL(hrefString(m), link)
+		r, err := resolveURL(hrefString(m), link)
+		if err != nil {
+			return nil, err
+		}
 		result = append(result, r)
 	}
-	return result
+	return result, nil
 }
 
-// hrefString takes a *html.Node as input and
-// returns the value of attribute href
+// hrefString takes an *html.Node as input and
+// returns the value of attribute href.
 func hrefString(n *html.Node) string {
 	switch n.Type {
 	case html.TextNode:
@@ -74,8 +74,8 @@ func hrefString(n *html.Node) string {
 	return ""
 }
 
-// imageString takes a *html.Node as input and
-// returns the value of attribute src
+// imageString takes an *html.Node as input and
+// returns the value of attribute src.
 func imageString(n *html.Node) string {
 	switch n.Type {
 	case html.TextNode:
@@ -91,7 +91,7 @@ func imageString(n *html.Node) string {
 	return ""
 }
 
-// attribute takes a html Token and the attribute key as inputs
+// attribute takes an html Token and the attribute key as inputs
 // and returns the value of the attribute.
 func attribute(t html.Token, a string) string {
 	for _, x := range t.Attr {
@@ -104,43 +104,44 @@ func attribute(t html.Token, a string) string {
 
 // Images returns the absolute URLs of all the images in a HTML page.
 // It takes the URL of the page as the input.
-func Images(u string) []string {
+func Images(u string) ([]string, error) {
 	s := NewSelection("img[src]", u)
 	link, err := url.Parse(s.URL)
 	if err != nil {
-		log.Fatal("Incorrect url")
-		return nil
+		return nil, err
 	}
 	r, err := http.Get(link.String())
 	if err != nil {
-		log.Fatal(err)
-
+		return nil, err
 	}
 	doc, err := html.Parse(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	sel, err := cascadia.Compile(s.Selector)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	matches := sel.MatchAll(doc)
 	var result []string
 	for _, m := range matches {
-		r := resolveURL(imageString(m), link)
+		r, err := resolveURL(imageString(m), link)
+		if err != nil {
+			return nil, err
+		}
 		result = append(result, r)
 	}
-	return result
+	return result, nil
 }
 
 // resolveURL converts all input URLs into absolute URLs
-func resolveURL(s string, link *url.URL) string {
-	// x may or may not be a absolute URL.
+func resolveURL(s string, link *url.URL) (string, error) {
+	// x may or may not be an absolute URL.
 	x, err := url.Parse(s)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
-	//y is guaranteed to be a absolute URL
+	// y is guaranteed to be an absolute URL
 	y := link.ResolveReference(x)
-	return y.String()
+	return y.String(), nil
 }

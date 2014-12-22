@@ -18,7 +18,10 @@ func TestExtractLinks(t *testing.T) {
 		)
 	}))
 	defer ts.Close()
-	r := Links(ts.URL)
+	r, err := Links(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if len(r) != 2 {
 		t.Errorf("length of results slice should be 2 but got %d", len(r))
 	}
@@ -34,7 +37,10 @@ func TestExtractImages(t *testing.T) {
 		)
 	}))
 	defer ts.Close()
-	s := Images(ts.URL)
+	s, err := Images(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if len(s) != 1 {
 		t.Errorf("length of results slice should be 1 but got %d", len(s))
 	}
