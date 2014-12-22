@@ -11,12 +11,17 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/hariharan-uno/extract"
 )
 
 func main() {
-	fmt.Println(extract.Links("http://google.com"))
+	l, err := extract.Links("http://google.com")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(l)
 }
 ~~~
 
@@ -26,12 +31,17 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/hariharan-uno/extract"
 )
 
 func main() {
-	fmt.Println(extract.Images("http://google.com"))
+	i, err := extract.Images("http://google.com")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(i)
 }
 ~~~
 
