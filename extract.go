@@ -14,21 +14,21 @@ import (
 	"golang.org/x/net/html"
 )
 
-// A Selection contains the required elements for extraction.
-type Selection struct {
+// A selection contains the required elements for extraction.
+type selection struct {
 	Selector string // CSS Selector
 	URL      string
 }
 
-// NewSelection is a constructor for Selection type.
+// newSelection is a constructor for selection type.
 // It takes the selector string and the url as inputs, in that order.
-func NewSelection(s, u string) *Selection {
-	return &Selection{s, u}
+func newSelection(s, u string) *selection {
+	return &selection{s, u}
 }
 
 // Links extracts all the referencing absolute URLs from a webpage.
 func Links(u string) ([]string, error) {
-	s := NewSelection("a[href]", u)
+	s := newSelection("a[href]", u)
 	link, err := url.Parse(s.URL)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func attribute(t html.Token, a string) string {
 // Images returns the absolute URLs of all the images in a HTML page.
 // It takes the URL of the page as the input.
 func Images(u string) ([]string, error) {
-	s := NewSelection("img[src]", u)
+	s := newSelection("img[src]", u)
 	link, err := url.Parse(s.URL)
 	if err != nil {
 		return nil, err
