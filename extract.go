@@ -19,9 +19,12 @@ type selection struct {
 }
 
 // newSelection is a constructor for selection type.
-// It takes the selector string and the url as inputs, in that order.
-func newSelection(s, u string) *selection {
-	return &selection{s, u}
+// selector implies a CSS selector string.
+func newSelection(selector, url string) *selection {
+	return &selection{
+		Selector: selector,
+		URL:      url,
+	}
 }
 
 // Links returns the absolute URLs of all references from an URL of a webpage.
