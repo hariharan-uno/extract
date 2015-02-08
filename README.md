@@ -1,11 +1,10 @@
-##extract [![GoDoc](https://img.shields.io/badge/godoc-Documentation-blue.svg?style=flat)](https://godoc.org/github.com/hariharan-uno/extract)
+## extract [![GoDoc](https://img.shields.io/badge/godoc-Documentation-blue.svg?style=flat)](https://godoc.org/github.com/hariharan-uno/extract)
 
-HTML scraping library.
+extract is a simple library for extracting elements from a web page. It provides simple higher level functions based upon [Cascadia](http://code.google.com/p/cascadia) and [html](http://golang.org/x/net/html) packages.
 
-It provides simple higher level functions based upon [Cascadia](http://code.google.com/p/cascadia) and [html](http://golang.org/x/net/html) packages.
+For example,
 
-For example, 
-To extract all the links from a web page, 
+##### extract all the links from a web page 
 ~~~go
 package main
 
@@ -25,7 +24,7 @@ func main() {
 }
 ~~~
 
-To extract all the URLs of the images from a web page,
+##### extract all the URLs of the images from a web page
 ~~~go
 package main
 
@@ -47,6 +46,6 @@ func main() {
 
 Currently, only the functions `extract.Links()` and `extract.Images()` are supported. If you'd like a specific function to be supported, please file an issue.
 
-###Credits
+### Credits
 
 Authors of [Cascadia](http://code.google.com/p/cascadia) and [html](http://golang.org/x/net/html)
