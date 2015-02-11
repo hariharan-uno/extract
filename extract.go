@@ -38,6 +38,7 @@ func Links(u string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer r.Body.Close()
 	doc, err := html.Parse(r.Body)
 	if err != nil {
 		return nil, err
@@ -114,6 +115,7 @@ func Images(u string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer r.Body.Close()
 	doc, err := html.Parse(r.Body)
 	if err != nil {
 		return nil, err
