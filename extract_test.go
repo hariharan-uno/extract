@@ -49,3 +49,29 @@ func TestExtractImages(t *testing.T) {
 	}
 
 }
+
+func BenchmarkExtractLinks(b *testing.B) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w,
+			`<html><body><ul><li><a href="http://example.com/1"></a><li><a href="/2"></a></ul></body></html>`,
+		)
+	}))
+	defer ts.Close()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Links(ts.URL)
+	}
+}
+
+func BenchmarkExtractImages(b *testing.B) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w,
+			`<html><body><ul><img src="/smiley.png"><li><a href="http://example.com/1"></a><li><a href="/2"></a></ul></body></html>`,
+		)
+	}))
+	defer ts.Close()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Images(ts.URL)
+	}
+}
